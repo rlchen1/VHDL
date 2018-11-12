@@ -1,0 +1,57 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity Elevatortest is
+--  Port ( );
+end Elevatortest;
+
+architecture Behavioral of Elevatortest is
+component Elevator
+port(
+    Clk, DOpen : in STD_LOGIC;
+    Floor1, Floor2, Call1, Call2 : in STD_LOGIC;
+    Q : buffer STD_LOGIC_VECTOR (2 downto 0));
+end component;
+
+signal Clk, DOpen, Floor1, Floor2, Call1, Call2: STD_LOGIC := '0';
+signal Q : STD_LOGIC_VECTOR (2 downto 0) := "000";
+begin
+uut: Elevator PORT MAP (
+    Clk => Clk,
+    DOpen => DOpen,
+    Floor1 => Floor1,
+    Floor2 => Floor2,
+    Call1 => Call1,
+    Call2 => Call2,
+    Q => Q);
+
+process begin
+    Clk <= '0'; wait for 20ns;
+    Clk <= '1'; wait for 20ns;
+end process;
+
+process begin
+    DOpen <= '0'; wait for 50ns;
+    DOpen <= '1'; wait for 45ns;
+end process;
+
+process begin 
+    Floor1 <= '0'; wait for 30ns;
+    Floor1 <= '1'; wait for 30ns;
+end process;
+
+process begin
+    Floor2 <= '0'; wait for 30ns;
+    Floor2 <= '1'; wait for 30ns;
+end process;
+
+process begin
+    Call1 <= '0'; wait for 50ns;
+    Call1 <= '1'; wait for 20ns;
+end process;
+
+process begin
+    Call2 <= '0'; wait for 50ns;
+    Call2 <= '1'; wait for 20ns;
+end process;
+end Behavioral;
