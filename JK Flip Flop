@@ -1,0 +1,34 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity jkflipflop is
+port(
+    J, K, Pre, Clr, Clock : IN bit;
+    Q, QN : OUT bit);
+end jkflipflop;
+
+architecture Behavioral of jkflipflop is
+
+begin
+    process(Clock, Clr, Pre)
+    variable temp : bit;
+    begin
+        if Clr = '0' then
+            temp := '0';
+        elsif Pre = '0' then
+            temp := '1';  
+        elsif(Clock'EVENT and Clock = '1') then
+            if J = '0' and K = '0' then
+                temp := temp;
+            if J = '0' and K = '1' then
+                temp := '1'; 
+            if J = '1' and K = '0' then
+                temp := '0';
+            if J = '1' and K = '1' then
+                temp := not temp;
+            end if;
+        end if;        
+        Q <= temp;
+        QN <= not temp;
+    end process;
+end Behavioral;
