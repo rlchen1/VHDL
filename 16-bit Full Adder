@@ -1,0 +1,27 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity Lab2MUX16 is
+port(
+    D : in STD_LOGIC_VECTOR (15 downto 0);
+    S : in STD_LOGIC_VECTOR (3 downto 0);
+    Y : out STD_LOGIC);
+end Lab2MUX16;
+
+architecture Behavioral of Lab2MUX16 is
+
+component Lab2MUX4 is 
+port( 
+    D3, D2, D1,D0, S1, S0 : in STD_LOGIC; 
+    Y : out STD_LOGIC);
+end component;
+signal X0, X1, X2, X3 : STD_LOGIC;
+
+begin
+part0 : Lab2MUX4 port map(D(3), D(2), D(1), D(0), S(1), S(0), X0);
+part1 : Lab2MUX4 port map(D(7), D(6), D(5), D(4), S(1), S(0), X1);
+part2 : Lab2MUX4 port map(D(11), D(10), D(9), D(8), S(1), S(0), X2);
+part3 : Lab2MUX4 port map(D(15), D(14), D(13), D(12), S(1), S(0), X3);
+result: Lab2MUX4 port map(X3, X2, X1, X0, S(3), S(2), Y);
+
+end Behavioral;
