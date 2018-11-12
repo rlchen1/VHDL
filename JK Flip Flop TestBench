@@ -1,0 +1,56 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity jkflipfloptest is
+--  Port ( );
+end jkflipfloptest;
+
+architecture Behavioral of jkflipfloptest is
+component jkflipflop
+port(
+    J, K, Pre, Clr, Clock : IN bit;
+    Q, QN : OUT bit);
+end component;
+
+signal J, K, Pre, Clr, Clock, Q, QN: bit;
+begin
+uut: jkflipflop PORT MAP (
+    J => J,
+    K => K,
+    Pre => Pre,
+    Clr => Clr,
+    Clock => Clock,
+    Q => Q,
+    QN => QN);
+
+process begin
+   J <= '0'; wait for 40ns;
+   J <= '1'; wait for 60ns;
+end process;
+
+process begin
+    K <= '0'; wait for 60ns;
+    K <= '1'; wait for 20ns;
+end process;
+
+process begin
+    Clock <= '1'; wait for 15ns;
+    Clock <= '0'; wait for 15ns;
+    Clock <= '1'; wait for 15ns;
+    Clock <= '0'; wait for 15ns;
+    Clock <= '1'; wait for 15ns;
+    Clock <= '0'; wait for 15ns;
+end process;
+
+process begin
+    Pre <= '1'; wait for 80ns;
+    Pre <= '0'; wait for 20ns;
+end process;
+
+process begin
+    Clr <= '0'; wait for 40ns;
+    Clr <= '1'; wait for 40ns;
+    Clr <= '0'; wait for 20ns;
+end process;
+
+end Behavioral;
