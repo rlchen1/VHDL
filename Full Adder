@@ -1,0 +1,21 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity Lab_1c is
+port (
+    A2, A1, B2, B1, Cin : in STD_LOGIC;
+    Cout1 : inout STD_LOGIC;
+    Sum1, Sum2, Cout2: out STD_LOGIC);
+end Lab_1c;
+
+--Describe the full adder's behavior
+architecture Behavioral of Lab_1c is
+
+begin
+    Sum1 <= A1 XOR B1 XOR Cin;
+    Cout1 <= (A1 AND B1) OR (A1 AND Cin) OR (B1 AND Cin);
+    
+    Sum2 <= A2 XOR B2 XOR Cout1;
+    Cout2 <= (A2 AND B2) OR (A2 AND Cout1) OR (B2 AND Cout1);
+
+end Behavioral;
