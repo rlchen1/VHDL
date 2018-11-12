@@ -1,0 +1,46 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity dflipfloptest is
+--  Port ( );
+end dflipfloptest;
+
+architecture Behavioral of dflipfloptest is
+component dflipflop
+port(
+    D, Pre, Clr : IN bit;
+    Clock : IN bit;
+    Q, QN : BUFFER bit);
+end component;
+signal D, Pre, Clr, Clock, Q, QN: bit;
+begin
+uut: dflipflop PORT MAP (
+    D => D,
+    Pre => Pre,
+    Clr => Clr,
+    Clock => Clock,
+    Q => Q,
+    QN => QN);
+    
+process begin
+    Clock <= '0'; wait for 50ns;
+    Clock <= '1'; wait for 50ns;
+end process;
+
+process begin
+    D <= '0'; wait for 100ns;
+    D <= '1'; wait for 100ns;
+end process;
+
+process begin
+    Pre <= '1'; wait for 450ns;
+    Pre <= '0'; wait for 150ns;
+    Pre <= '1'; wait for 400ns;
+end process;
+
+process begin
+    Clr <= '0'; wait for 150ns;
+    Clr <= '1'; wait for 700ns;
+    Clr <= '0'; wait for 200ns;
+end process;
+end Behavioral;
