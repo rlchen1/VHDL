@@ -1,0 +1,68 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity Elevator is
+port( 
+    Clk, DOpen : in STD_LOGIC;
+    Floor1, Floor2, Call1, Call2 : in STD_LOGIC;
+    Q : buffer STD_LOGIC_VECTOR (2 downto 0));
+end Elevator;
+
+architecture Behavioral of Elevator is
+signal arrive1, arrive2 : STD_LOGIC;
+
+type state_type is (S0, S1, S2, S3, S4, S5);
+signal state: state_type;
+
+begin
+process(Clk)
+    begin
+    if(Clk'Event and Clk='1')then
+        Case state is 
+            when S0 =>
+                if Floor1 = '1' or Call1 = '1' then
+                    state <= S1;
+                else state <= S0;
+                end if;
+            when S1 => 
+                if DOpen = '1' or Call2 = '1' then
+                    state <= S0;
+                elsif Floor1 = '1' or Call1 = '1' then
+                    state <= S2;
+                else state <= S1;
+                end if;
+            when S2 =>
+                arrive1 <= '1';
+                if arrive1 = '1' then
+                    state <= S3;
+                else state <= S2;
+                end if;
+            when S3 => 
+                if Floor2 = '1' or Call2 = '1' then
+                    state <= S4;
+                else state <= S3;
+                end if;
+            when S4 => 
+                if DOpen = '1' or Call1 = '1' then
+                    state <= S3;
+                elsif Floor2 = '1' or Call2 = '1' then
+                    state <= S5;
+                end if;
+            when S5 =>
+                arrive2 <= '1';
+                if arrive2 = '1' then
+                    state <= S0;
+                else state <= S5; 
+                end if;
+        end case;
+    end if;
+ end process;
+ 
+ With state select 
+    Q <= "000" when S0,
+    "100" when S1,
+    "101" when S2,
+    "010" when S3,
+    "110" when S4,
+    "111" when S5;
+end Behavioral;
